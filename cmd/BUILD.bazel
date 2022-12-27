@@ -1,0 +1,21 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+load("@update_attrs//:update_attrs.bzl", "UPDATE_ARGS", "UPDATE_DATA")
+
+go_library(
+    name = "main",
+    srcs = ["main.go"],
+    importpath = "github.com/fmeum/auto_use_repo/cmd",
+    deps = [
+        "//update",
+        "@com_github_bazelbuild_buildtools//build:go_default_library",
+        "@rules_go//go/runfiles",
+    ],
+)
+
+go_binary(
+    name = "update",
+    args = UPDATE_ARGS,
+    data = UPDATE_DATA,
+    embed = ["@auto_use_repo//cmd:main"],
+    visibility = ["@auto_use_repo//:__pkg__"],
+)
